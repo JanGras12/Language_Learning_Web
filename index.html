@@ -1,0 +1,439 @@
+<!doctype html>
+<html lang="ca">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Quadern d'estudi d'idiomes A1–B2: japonès, rus, coreà, xinès, alemany i àrab, amb gramàtica, vocabulari per nivells, transliteració i IPA.">
+<title>Quadern d'Idiomes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Noto+Sans:wght@400;600&family=Noto+Sans+JP:wght@400;600&family=Noto+Sans+KR:wght@400;600&family=Noto+Sans+SC:wght@400;600&family=Noto+Naskh+Arabic:wght@400;600&display=swap">
+<style>
+/* Layout: barra fosca amb idiomes i opcions; pestanyes de full de càlcul; full de treball a sota. */
+:root{
+  --paper:#f5f7fb; --sheet:#ffffff; --ink:#16233f; --muted:#5b6680; --line:#dbe1ec; --band:#2E75B6; --bandfg:#ffffff;
+  --head:#1F3864; --headfg:#ffffff; --accent:#2E75B6; --hl:#fff4c2; --ok:#2f7d4f; --okbg:#e4f3ea; --zebra:#f6f8fc;
+  --t-guide:#C00000; --t-alpha:#7030A0; --t-vocab:#2E75B6; --t-conn:#BF8F00; --t-gram:#548235;
+  --f-display:'Bricolage Grotesque',system-ui,sans-serif; --f-body:'Noto Sans','Noto Sans JP',system-ui,sans-serif;
+  --f-jp:'Noto Sans JP','Hiragino Sans','Yu Gothic',sans-serif; --f-ko:'Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif; --f-zh:'Noto Sans SC','PingFang SC','Microsoft YaHei',sans-serif; --f-ar:'Noto Naskh Arabic','Geeza Pro','Traditional Arabic',serif; --f-ipa:'Noto Sans','Charis SIL','Doulos SIL','Segoe UI',sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --paper:#0e1320; --sheet:#151c2c; --ink:#e6ebf5; --muted:#9aa6bf; --line:#283249; --band:#24507d; --bandfg:#eaf2ff;
+  --head:#0b1630; --headfg:#e6ebf5; --accent:#7fb2e6; --hl:#4a3f12; --ok:#7fd3a0; --okbg:#173326; --zebra:#121929; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#0e1320; --sheet:#151c2c; --ink:#e6ebf5; --muted:#9aa6bf; --line:#283249; --band:#24507d; --bandfg:#eaf2ff;
+  --head:#0b1630; --headfg:#e6ebf5; --accent:#7fb2e6; --hl:#4a3f12; --ok:#7fd3a0; --okbg:#173326; --zebra:#121929; color-scheme:dark}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html,body{background:var(--paper);color:var(--ink)}
+body{font-family:var(--f-body);font-size:14px;line-height:1.5}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--head)}
+.wrap{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+header.top{background:var(--head);color:var(--headfg);position:sticky;top:env(safe-area-inset-top,0px);z-index:5}
+.bar{display:flex;flex-wrap:wrap;align-items:center;gap:10px 18px;padding-block:12px 10px;max-width:1400px;margin:0 auto}
+.brand{font-family:var(--f-display);font-weight:700;font-size:20px;letter-spacing:-.01em;margin-right:auto;white-space:nowrap}
+.brand small{font-weight:500;opacity:.7;font-size:13px;margin-left:6px}
+.langs{display:flex;gap:6px;flex-wrap:wrap}
+.lang{border:1px solid rgba(255,255,255,.25);background:transparent;color:inherit;border-radius:6px;padding:5px 10px;cursor:pointer;font:inherit;display:flex;flex-direction:column;align-items:flex-start;line-height:1.15;min-width:74px}
+.lang b{font-size:15px;font-weight:600}
+.lang span{font-size:11px;opacity:.75}
+.lang[aria-pressed="true"]{background:#fff;color:#1F3864;border-color:#fff}
+.lang:disabled{opacity:.4;cursor:not-allowed}
+.statsbtn{border-style:dashed}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:18px;align-items:start}
+.stats section{background:var(--sheet);border:1px solid var(--line);border-radius:8px;overflow:hidden;min-width:0}
+.stats h2{font-family:var(--f-display);font-size:19px;margin:0;padding:10px 14px;background:var(--band);color:var(--bandfg);display:flex;gap:10px;align-items:baseline;flex-wrap:wrap}
+.stats h2 small{font-family:var(--f-body);font-size:12px;font-weight:400;opacity:.85}
+.stats table td,.stats table th{text-align:right;font-variant-numeric:tabular-nums}
+.stats table td:first-child,.stats table th:first-child{text-align:left}
+.stats tr.tot td{font-weight:700;border-top:2px solid var(--line)}
+.stats tr.gr td{color:var(--muted);font-size:12.5px}
+.stats .open{font:inherit;font-size:12px;color:var(--bandfg);background:transparent;border:1px solid currentColor;border-radius:5px;padding:1px 8px;cursor:pointer;margin-left:auto}
+.stats .note{padding:8px 14px;color:var(--muted);font-size:12.5px;margin:0}
+.opts{display:flex;gap:14px;align-items:center;flex-wrap:wrap;font-size:13px}
+.seg{display:inline-flex;border:1px solid rgba(255,255,255,.3);border-radius:6px;overflow:hidden}
+.seg button{background:transparent;color:inherit;border:0;padding:4px 10px;font:inherit;cursor:pointer}
+.seg button[aria-pressed="true"]{background:#fff;color:#1F3864;font-weight:600}
+label.sw{display:inline-flex;gap:6px;align-items:center;cursor:pointer}
+label.sw input{accent-color:#7fb2e6;width:16px;height:16px}
+nav.tabs{display:flex;gap:2px;overflow-x:auto;max-width:1400px;margin:0 auto;padding-top:2px;scrollbar-width:thin}
+nav.tabs button{flex:none;border:0;background:rgba(255,255,255,.08);color:var(--headfg);font:inherit;font-size:13px;padding:7px 12px 6px;border-radius:6px 6px 0 0;cursor:pointer;border-top:3px solid var(--tc)}
+nav.tabs button[aria-selected="true"]{background:var(--paper);color:var(--ink);font-weight:600}
+nav.tabs button:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+main{max-width:1400px;margin:0 auto;padding-block:18px 60px}
+h1.sheet{font-family:var(--f-display);font-weight:700;font-size:28px;letter-spacing:-.015em;margin:0 0 4px;text-wrap:balance}
+.sub{color:var(--muted);margin:0 0 14px}
+.notice{border:1px solid var(--line);border-left:4px solid var(--t-conn);background:var(--sheet);padding:10px 14px;border-radius:6px;margin:0 0 14px;max-width:80ch}
+.tools{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:12px}
+.tools input[type=search],.tools select{font:inherit;padding:7px 10px;border:1px solid var(--line);border-radius:6px;background:var(--sheet);color:var(--ink);min-width:0}
+.tools input[type=search]{flex:1 1 220px;max-width:360px}
+.tools select{max-width:260px}
+.tools label.sw{color:var(--ink)}
+.tools label.sw input{accent-color:var(--accent)}
+.prog{display:flex;align-items:center;gap:8px;color:var(--muted);font-variant-numeric:tabular-nums;margin-left:auto}
+.prog i{display:block;width:120px;height:6px;border-radius:3px;background:var(--line);overflow:hidden}
+.prog i b{display:block;height:100%;background:var(--ok)}
+.tblwrap{overflow-x:auto;background:var(--sheet);border:1px solid var(--line);border-radius:8px}
+table{border-collapse:collapse;width:100%}
+th,td{border-bottom:1px solid var(--line);padding:6px 10px;text-align:left;vertical-align:top}
+thead th{background:var(--head);color:var(--headfg);font-weight:600;font-size:12.5px;position:sticky;top:0;white-space:nowrap}
+tbody tr.r:nth-child(even) td{background:var(--zebra)}
+tr.sec td{background:var(--band)!important;color:var(--bandfg);font-weight:600;padding:7px 10px;font-size:13.5px}
+td.tl{font-size:16px;font-weight:600;white-space:nowrap}
+td.ex{min-width:16em}
+td.tl2{white-space:nowrap}
+td.ipa{font-family:var(--f-ipa);color:var(--muted);white-space:nowrap}
+td.pr{color:var(--muted);white-space:nowrap}
+[lang=ja]{font-family:var(--f-jp)}
+[lang=ko]{font-family:var(--f-ko)}
+[lang=zh]{font-family:var(--f-zh)}
+[lang=ar]{font-family:var(--f-ar);font-size:1.14em;line-height:1.75;unicode-bidi:plaintext;text-align:start}
+bdi[lang=ar]{font-size:1.1em;line-height:1.6}
+td[lang=ar].tl{font-size:19px}
+.lvls{display:inline-flex;gap:4px;align-items:center}
+.lvls button{border:1px solid rgba(255,255,255,.3);background:transparent;color:inherit;font:inherit;font-size:12.5px;font-weight:600;padding:3px 9px;border-radius:5px;cursor:pointer;font-variant-numeric:tabular-nums}
+.lvls button[aria-pressed="true"]{background:#fff;color:#1F3864;border-color:#fff}
+td.lv{white-space:nowrap}
+.lvt{display:inline-block;font-size:11px;font-weight:600;border-radius:4px;padding:0 5px;border:1px solid var(--line);color:var(--muted)}
+.lvt.A1{color:var(--ok);border-color:currentColor}.lvt.A2{color:var(--accent);border-color:currentColor}.lvt.B1{color:var(--t-alpha);border-color:currentColor}.lvt.B2{color:var(--t-guide);border-color:currentColor}
+.lvh{margin-left:8px;vertical-align:3px}
+.doc h2 .lvt{color:var(--bandfg);border-color:currentColor;opacity:.85}
+.new{font-size:10px;font-weight:600;color:var(--t-conn);border:1px solid currentColor;border-radius:4px;padding:0 4px;margin-left:6px;vertical-align:2px}
+td.chk{text-align:center;width:56px}
+td.chk input{width:18px;height:18px;accent-color:var(--ok);cursor:pointer}
+tr.done td{color:var(--muted)}
+tr.done td.chk{background:var(--okbg)!important}
+.hid{cursor:pointer;color:transparent!important;background:repeating-linear-gradient(135deg,var(--line) 0 6px,transparent 6px 12px)!important;border-radius:4px;user-select:none}
+.more{padding:14px;text-align:center;color:var(--muted)}
+.empty{padding:28px;text-align:center;color:var(--muted)}
+.fb{font-size:11px;color:var(--muted);border:1px solid var(--line);border-radius:4px;padding:0 4px;margin-left:4px}
+/* gramàtica i guia */
+.doc{max-width:1100px}
+.doc h2{font-family:var(--f-display);font-weight:700;font-size:19px;margin:26px 0 8px;padding:6px 12px;background:var(--band);color:var(--bandfg);border-radius:6px}
+.doc h2:first-child{margin-top:0}
+.doc p{max-width:80ch;margin:6px 0}
+.doc .tblwrap{margin:8px 0 14px}
+.doc td{font-size:13.5px}
+.doc td:first-child{font-weight:600}
+.guide-t{font-family:var(--f-display);font-size:30px;font-weight:700;margin:0 0 16px;text-wrap:balance}
+dl.kv{display:grid;grid-template-columns:minmax(140px,220px) 1fr;gap:0;margin:0 0 10px;background:var(--sheet);border:1px solid var(--line);border-radius:8px;overflow:hidden}
+dl.kv dt,dl.kv dd{margin:0;padding:9px 12px;border-bottom:1px solid var(--line)}
+dl.kv dt{font-weight:600;background:var(--zebra)}
+dl.kv dd small{display:block;color:var(--muted);margin-top:3px}
+.alpha td:first-child{font-size:22px;font-weight:600}
+.load{padding:40px 0;color:var(--muted)}
+@media (max-width:720px){
+  header.top{position:static}
+  .brand{font-size:18px}
+  .prog{margin-left:0}
+  table.vocab thead{display:none}
+  table.vocab tr.r{display:grid;grid-template-columns:1fr auto;padding:8px 10px;border-bottom:1px solid var(--line)}
+  table.vocab tr.r td{border:0;padding:1px 0;background:transparent!important;white-space:normal}
+  table.vocab tr.r td.chk{grid-column:2;grid-row:1 / span 3;width:auto;padding-left:10px}
+  table.vocab tr.r td:not(.chk){grid-column:1}
+  table.vocab tr.r td[data-l]:not(.tr):not(.tl)::before{content:attr(data-l) " · ";color:var(--muted);font-size:11px}
+  table.vocab tr.sec td{display:block}
+  table.vocab tbody tr.r:nth-child(even){background:var(--zebra)}
+  dl.kv{grid-template-columns:1fr}
+  dl.kv dt{border-bottom:0}
+}
+@media (prefers-reduced-motion:no-preference){nav.tabs button,.lang,.seg button{transition:background .15s,color .15s}}
+</style>
+
+<header class="top">
+  <div class="wrap">
+    <div class="bar">
+      <div class="brand">Quadern d'Idiomes<small id="lvl"></small></div>
+      <div class="langs" id="langs" role="group" aria-label="Idioma"></div>
+      <button class="lang statsbtn" id="statsBtn" aria-pressed="false"><b id="statsLbl">Recompte</b><span id="statsSub">per nivell</span></button>
+      <div class="opts">
+        <span id="baseLbl">Des de</span>
+        <div class="seg" id="base" role="group">
+          <button id="b-ca" data-v="ca">Català</button><button id="b-en" data-v="en">English</button>
+        </div>
+        <label class="sw"><input type="checkbox" id="ipa"> <span id="ipaLbl">IPA</span></label>
+        <span class="lvls" id="lvls" role="group" aria-label="Nivells"></span>
+      </div>
+    </div>
+    <nav class="tabs" id="tabs" role="tablist"></nav>
+  </div>
+</header>
+<main class="wrap" id="main"><div class="load">Carregant…</div></main>
+
+<script>
+const LANGS=[
+  {id:'ja',native:'日本語',ca:'Japonès',en:'Japanese',on:true},
+  {id:'ru',native:'Русский',ca:'Rus',en:'Russian',on:true},
+  {id:'ko',native:'한국어',ca:'Coreà',en:'Korean',on:true},
+  {id:'zh',native:'中文',ca:'Xinès',en:'Chinese',on:true},
+  {id:'de',native:'Deutsch',ca:'Alemany',en:'German',on:true},
+  {id:'ar',native:'العربية',ca:'Àrab',en:'Arabic',on:true}];
+const UI={
+ ca:{from:'Des de',soon:'Aviat',search:'Cerca en qualsevol columna…',all:'Tots els temes',hideLearned:'Amaga els apresos',quiz:'Mode prova',learned:'apresos',of:'de',more:'Desplaça per veure\'n més',none:'Cap resultat.',learnedCol:'Après',ipaCol:'IPA',newTag:'nou',enPending:'',saveLocal:'El progrés es desa en aquest navegador.',saveCloud:'El progrés es desa al teu compte.',loading:'Carregant…',rows:'files',quizHelp:'Toca una cel·la ratllada per veure-la.',stats:'Recompte',statsSub:'per nivell',statsTitle:'Paraules per categoria i nivell',statsIntro:'Nombre de paraules de cada categoria gramatical per nivell, per a cada idioma. Els nivells són una estimació (vegeu la Guia de cada idioma).',total:'Total',cat:'Categoria',gramSec:'Seccions de gramàtica',open:'Obre',levels:'Nivells',lvCol:'Nivell',noLevel:'Tria almenys un nivell.'},
+ en:{from:'From',soon:'Soon',search:'Search any column…',all:'All topics',hideLearned:'Hide learned',quiz:'Quiz mode',learned:'learned',of:'of',more:'Scroll for more',none:'No results.',learnedCol:'Learned',ipaCol:'IPA',newTag:'new',enPending:'English translations are not written yet: meanings, example translations and grammar notes are shown in Catalan (marked CA) until they are added.',saveLocal:'Progress is saved in this browser.',saveCloud:'Progress is saved to your account.',loading:'Loading…',rows:'rows',quizHelp:'Tap a striped cell to reveal it.',stats:'Word count',statsSub:'by level',statsTitle:'Words by category and level',statsIntro:'Number of words in each part of speech per level, for each language. Levels are estimates (see each language\'s Guide).',total:'Total',cat:'Category',gramSec:'Grammar sections',open:'Open',levels:'Levels',lvCol:'Level',noLevel:'Pick at least one level.'}};
+const HEAD_EN={'Català':'English','Frase (CA)':'Sentence (EN)','Frase (JP)':'Sentence (JP)','Frase (RU)':'Sentence (RU)','Grup':'Group','Tr. / Intr.':'Trans. / Intr.','Tipus':'Type','Gènere':'Gender','Rus':'Russian','Rus (masc.)':'Russian (masc.)','Imperfectiu':'Imperfective','Perfectiu':'Perfective','Pronunciació':'Pronunciation','Pronunciació (imperf. / perf.)':'Pronunciation (impf. / pf.)','Terminacions f, n, pl':'Endings f, n, pl','Lletra':'Letter','Minúscula':'Lowercase','Nom (rus)':'Name (Russian)','Translit.':'Translit.','So (fonètica CA)':'Sound (CA approx.)','Nota':'Note','Paraula exemple':'Example word','Pron. paraula':'Word pron.','Fila / combinació':'Row / combination','Romaji paraula':'Word romaji','Àrab':'Arabic','Frase (AR)':'Sentence (AR)','Passat (ell)':'Past (he)','Present (ell)':'Present (he)','Màsdar':'Verbal noun','Arrel':'Root','Forma':'Form','Masculí':'Masculine','Femení':'Feminine','Plural fracturat':'Broken plural','Elatiu':'Elative','Tipus / regència':'Type / government','Final':'Final','Medial':'Medial','Inicial':'Initial'};
+const TABCOL={guide:'--t-guide',alphabet:'--t-alpha',connectors:'--t-conn',nouns:'--t-vocab',verbs:'--t-vocab',adjectives:'--t-vocab',adverbs:'--t-vocab'};
+
+const store={get(k,d){try{const v=localStorage.getItem(k);return v==null?d:JSON.parse(v)}catch(e){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
+const S=Object.assign({lang:'ja',base:'ca',ipa:false,sheet:'guide',hideLearned:false,quiz:false,lv:['A1','A2','B1','B2']},store.get('qi.prefs',{}));
+if(!Array.isArray(S.lv))S.lv=['A1','A2','B1','B2'];
+let DATA={}, q='', sec='', cloud=null, uid=null, PROG={}, pending={}, writing={};
+const $=s=>document.querySelector(s);
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const norm=s=>String(s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
+const t=k=>UI[S.base][k];
+function savePrefs(){store.set('qi.prefs',{lang:S.lang,base:S.base,ipa:S.ipa,sheet:S.sheet,hideLearned:S.hideLearned,quiz:S.quiz,lv:S.lv})}
+const lvset=()=>(DATA[S.lang]&&DATA[S.lang].lvset)||['A1','A2','B1'];
+const lvOn=l=>!l||S.lv.includes(l);
+function hash(s){let h=5381;for(let i=0;i<s.length;i++)h=((h<<5)+h+s.charCodeAt(i))|0;return (h>>>0).toString(36)}
+
+/* ---------- progrés: compte (db) o navegador ---------- */
+const docId=(l,sh)=>'p_'+l+'_'+sh;
+async function initCloud(){
+  try{
+    const c=window.claude; if(!c||!c.use)return;
+    const [db,user]=await Promise.all([c.use('db'),c.use('user')]);
+    if(!db||!user)return; const id=await user.id(); if(!id)return;
+    cloud=db; uid=id; await loadProgress(S.lang); render();
+  }catch(e){cloud=null}
+}
+async function loadProgress(l){
+  const vs=(DATA[l]?.sheets||[]).filter(s=>s.kind==='vocab');
+  for(const s of vs){
+    const k=docId(l,s.id);
+    let set=new Set(store.get('qi.'+k,[]));
+    if(cloud){
+      try{const snap=await cloud.collection('data/users/'+uid).doc(k).get();
+        if(snap.exists){const d=snap.data()||{};for(const x of (d.keys||[]))set.add(x)}}catch(e){}
+    }
+    PROG[k]=set;
+  }
+}
+function markDirty(k){
+  store.set('qi.'+k,[...PROG[k]]);
+  if(!cloud)return;
+  clearTimeout(pending[k]); pending[k]=setTimeout(()=>flush(k),900);
+}
+async function flush(k){
+  if(writing[k]){pending[k]=setTimeout(()=>flush(k),600);return}
+  writing[k]=true;
+  try{await cloud.collection('data/users/'+uid).doc(k).set({keys:[...PROG[k]],at:new Date().toISOString()})}catch(e){}
+  writing[k]=false;
+}
+
+/* ---------- càrrega ---------- */
+async function loadLang(l){
+  if(!DATA[l]){
+    $('#main').innerHTML='<div class="load">'+t('loading')+'</div>';
+    const r=await fetch('data/'+l+'.json'); DATA[l]=await r.json();
+    for(const s of DATA[l].sheets) if(s.kind==='vocab') for(const row of s.rows) if(row.c) row.k=hash(s.id+'|'+row.c[0]+'|'+row.c[1]+'|'+(row.c[2]||''));
+    await loadProgress(l);
+  }
+}
+
+/* ---------- capçalera ---------- */
+function renderHeader(){
+  $('#langs').innerHTML=LANGS.map(L=>`<button class="lang" id="lang-${L.id}" data-l="${L.id}" ${L.on?'':'disabled'} aria-pressed="${S.lang===L.id}"><b lang="${L.id}">${L.native}</b><span>${L[S.base]}${L.on?'':' · '+t('soon')}</span></button>`).join('');
+  $('#baseLbl').textContent=t('from');
+  $('#statsLbl').textContent=t('stats');$('#statsSub').textContent=t('statsSub');$('#statsBtn').setAttribute('aria-pressed',VIEW==='stats');
+  if(VIEW==='stats')document.querySelectorAll('#langs .lang').forEach(b=>b.setAttribute('aria-pressed','false'));
+  $('#tabs').hidden=VIEW==='stats';$('#lvls').hidden=VIEW==='stats';
+  for(const b of document.querySelectorAll('#base button'))b.setAttribute('aria-pressed',b.dataset.v===S.base);
+  $('#ipa').checked=S.ipa;
+  $('#lvls').setAttribute('aria-label',t('levels'));
+  $('#lvls').innerHTML=lvset().map(l=>`<button id="lv-${l}" data-lv="${l}" aria-pressed="${S.lv.includes(l)}" title="${t('levels')}">${l}</button>`).join('');
+  const d=DATA[S.lang]; $('#lvl').textContent=d?d.levels:'';
+  if(!d)return;
+  $('#tabs').innerHTML=d.sheets.map(s=>`<button role="tab" id="tab-${s.id}" data-s="${s.id}" aria-selected="${S.sheet===s.id}" style="--tc:var(${TABCOL[s.id]||'--t-gram'})">${esc(s.t[S.base])}</button>`).join('');
+  document.documentElement.lang=S.base;
+}
+
+/* ---------- vistes ---------- */
+function cur(){const d=DATA[S.lang];return d.sheets.find(s=>s.id===S.sheet)||d.sheets[0]}
+function tr(row,i){ // valor d'una columna de traducció segons l'idioma base
+  if(S.base==='en'){const v=row.en&&row.en[i];if(v)return esc(v);return esc(row.c[i])+'<span class="fb">CA</span>'}
+  return esc(row.c[i]);
+}
+function head(h){return S.base==='en'?(HEAD_EN[h]||h):h}
+function enNotice(){return S.base==='en'?`<p class="notice">${t('enPending')}</p>`:''}
+
+function renderGuide(s){
+  let h=enNotice(),open=false;
+  for(const it of s.items){
+    if(it[0]==='G'){h+=`<h1 class="guide-t">${esc(it[1])}</h1>`;continue}
+    if(it[0]==='T'){if(open)h+='</dl>';h+=`<div class="doc"><h2>${esc(it[1])}</h2></div><dl class="kv">`;open=true;continue}
+    if(!open){h+='<dl class="kv">';open=true}
+    h+=`<dt>${esc(it[1])}</dt><dd>${esc(it[2])}${it[3]?'<small>'+esc(it[3])+'</small>':''}</dd>`;
+  }
+  if(open)h+='</dl>';
+  h+=`<p class="sub">${cloud?t('saveCloud'):t('saveLocal')}</p>`;
+  return h;
+}
+function arw(x){return S.lang==='ar'?x.replace(/[\u0600-\u06ff\ufe70-\ufefc]+(?:[\s\u200c]+[\u0600-\u06ff\ufe70-\ufefc]+)*/g,m=>`<bdi lang="ar">${m}</bdi>`):x}
+function renderGrammar(s){
+  const lang=S.lang;let h=enNotice()+'<div class="doc">',tb=null,skip=false,shown=0;
+  const close=()=>{if(tb){h+='</tbody></table></div>';tb=null}};
+  for(const it of s.items){
+    if(it[0]==='T'){close();skip=!lvOn(it[2]);if(!skip){shown++;h+=`<h2>${esc(it[1])}${it[2]?`<span class="lvt ${it[2]} lvh">${it[2]}</span>`:''}</h2>`}continue}
+    if(skip)continue;
+    if(it[0]==='R'&&/^(A1|A2|B1|B2)$/.test(it[1][0])&&!lvOn(it[1][0]))continue;
+    if(false){}
+    else if(it[0]==='P'){close();h+=`<p>${arw(esc(it[1]))}</p>`}
+    else if(it[0]==='H'){close();h+=`<div class="tblwrap"><table><thead><tr>${it[1].map(c=>`<th>${arw(esc(c))}</th>`).join('')}</tr></thead><tbody>`;tb=1}
+    else {if(!tb){h+='<div class="tblwrap"><table><tbody>';tb=1}h+=`<tr class="r">${it[1].map(c=>lang==='ar'?`<td>${arw(esc(c))}</td>`:`<td lang="${/[\u3040-\u9fff\u0400-\u04ff\uac00-\ud7a3\u3131-\u318e]/.test(c)?lang:''}">${esc(c)}</td>`).join('')}</tr>`}
+  }
+  close();if(!shown&&!S.lv.length)h+=`<p class="empty">${t('noLevel')}</p>`;return h+'</div>';
+}
+function renderAlpha(s){
+  let h=`<div class="tblwrap"><table class="alpha"><thead><tr>${s.cols.map(c=>`<th>${esc(head(c.h))}</th>`).join('')}</tr></thead><tbody>`;
+  for(const r of s.rows){
+    if(r.s){h+=`<tr class="sec"><td colspan="${s.cols.length}">${esc(r.s)}</td></tr>`;continue}
+    h+=`<tr class="r">${s.cols.map((c,i)=>`<td lang="${i<2||/paraula|exemple|Kanji|Nom \(rus\)/.test(c.h)?S.lang:''}">${esc(r.c[i])}</td>`).join('')}</tr>`;
+  }
+  return enNotice()+h+'</tbody></table></div>';
+}
+
+let VROWS=[],VSHOWN=0,VCOLS=[],VS=null,obs=null;
+function vocabCols(s){
+  const cols=s.cols.map((c,i)=>({...c,i}));
+  if(S.ipa){const p=cols.findIndex(c=>c.role==='pr');cols.splice(p+1,0,{h:t('ipaCol'),role:'ipa',i:-1})}
+  cols.push({h:t('lvCol'),role:'lv',i:-1});
+  return cols;
+}
+function renderVocab(s){
+  VS=s;VCOLS=vocabCols(s);
+  const set=PROG[docId(S.lang,s.id)]||new Set();
+  const inLv=s.rows.filter(r=>r.c&&lvOn(r.lv));const total=inLv.length, done=inLv.filter(r=>set.has(r.k)).length;
+  const secs=s.rows.filter(r=>r.s).map(r=>r.s);
+  const pct=total?Math.round(done*100/total):0;
+  let h=enNotice()+`<div class="tools">
+    <input type="search" id="q" placeholder="${t('search')}" value="${esc(q)}" aria-label="${t('search')}">
+    <select id="sec" aria-label="${t('all')}"><option value="">${t('all')}</option>${secs.map(x=>`<option ${x===sec?'selected':''}>${esc(x)}</option>`).join('')}</select>
+    <label class="sw"><input type="checkbox" id="hl" ${S.hideLearned?'checked':''}> ${t('hideLearned')}</label>
+    <label class="sw"><input type="checkbox" id="qz" ${S.quiz?'checked':''}> ${t('quiz')}</label>
+    <div class="prog"><i><b style="width:${pct}%"></b></i><span id="pc">${done} ${t('of')} ${total} ${t('learned')}</span></div>
+  </div>${S.quiz?`<p class="sub">${t('quizHelp')}</p>`:''}
+  <div class="tblwrap"><table class="vocab"><thead><tr>${VCOLS.map(c=>`<th>${esc(c.role==='ipa'?c.h:head(c.h))}</th>`).join('')}<th>${t('learnedCol')}</th></tr></thead><tbody id="vb"></tbody></table><div id="vmore"></div></div>`;
+  // filtre
+  const nq=norm(q.trim()); let cs=null; VROWS=[];
+  let inSec=!sec;
+  for(const r of s.rows){
+    if(r.s){inSec=!sec||r.s===sec; if(inSec){cs=r}continue}
+    if(!inSec)continue;
+    if(!lvOn(r.lv))continue;
+    if(S.hideLearned&&set.has(r.k))continue;
+    if(nq&&!norm(r.c.join(' ')+' '+(r.ipa||'')+' '+(r.en?Object.values(r.en).join(' '):'')).includes(nq))continue;
+    if(cs){VROWS.push(cs);cs=null}
+    VROWS.push(r);
+  }
+  VSHOWN=0;
+  return h;
+}
+function rowHTML(r){
+  const n=VCOLS.length+1;
+  if(r.s)return `<tr class="sec"><td colspan="${n}">${esc(r.s)}</td></tr>`;
+  const set=PROG[docId(S.lang,VS.id)];const done=set&&set.has(r.k);
+  const tds=VCOLS.map(c=>{
+    const lab=esc(c.role==='ipa'?c.h:head(c.h));
+    if(c.role==='ipa')return `<td class="ipa" data-l="${lab}">${esc(r.ipa||'')}</td>`;
+    if(c.role==='lv')return `<td class="lv" data-l="${lab}">${r.lv?`<span class="lvt ${r.lv}">${r.lv}</span>`:''}</td>`;
+    let v=r.c[c.i]; if(v==null||v==='')return `<td data-l="${lab}"></td>`;
+    const isT=c.role==='tr'||c.role==='trx';
+    let html=isT?tr(r,c.i):esc(v);
+    if(c.role==='tl'&&r.new)html+=`<span class="new">${t('newTag')}</span>`;
+    const tl=['tl','tl2','ex'].includes(c.role)||(VS.id!=='nouns'&&false);
+    const hide=S.quiz&&isT&&!done?' hid':'';
+    return `<td class="${c.role}${hide}" data-l="${lab}" ${tl?`lang="${S.lang}"`:''}>${html}</td>`;
+  }).join('');
+  return `<tr class="r${done?' done':''}" data-k="${r.k}">${tds}<td class="chk"><input type="checkbox" aria-label="${t('learnedCol')}" ${done?'checked':''}></td></tr>`;
+}
+function more(){
+  const vb=$('#vb');if(!vb)return;
+  const next=VROWS.slice(VSHOWN,VSHOWN+250);VSHOWN+=next.length;
+  vb.insertAdjacentHTML('beforeend',next.map(rowHTML).join(''));
+  const m=$('#vmore');
+  if(!VROWS.length){m.innerHTML=`<div class="empty">${S.lv.length?t('none'):t('noLevel')}</div>`;return}
+  m.innerHTML=VSHOWN<VROWS.length?`<div class="more" id="sent">${t('more')} · ${VSHOWN} / ${VROWS.filter(r=>!r.s).length+VROWS.filter(r=>r.s).length}</div>`:'';
+  if(obs)obs.disconnect();
+  const sn=$('#sent');if(sn){obs=new IntersectionObserver(e=>{if(e[0].isIntersecting)more()},{rootMargin:'600px'});obs.observe(sn)}
+}
+
+let VIEW='lang',STATS=null;
+async function renderStats(){
+  if(!STATS){$('#main').innerHTML='<div class="load">'+t('loading')+'</div>';try{STATS=await (await fetch('data/stats.json')).json()}catch(e){STATS=[]}}
+  if(VIEW!=='stats')return;
+  let h=`<h1 class="sheet">${t('statsTitle')}</h1><p class="sub">${t('statsIntro')}</p><div class="stats">`;
+  for(const L of STATS){
+    const lv=L.lvset;const tot={};lv.forEach(l=>tot[l]=0);let all=0;
+    h+=`<section><h2><span lang="${L.id}">${esc(L.native)}</span> ${esc(L.name[S.base])} <small>${esc(L.levels)}</small><button class="open" data-l="${L.id}">${t('open')}</button></h2><div class="tblwrap" style="border:0;border-radius:0"><table><thead><tr><th>${t('cat')}</th>${lv.map(l=>`<th>${l}</th>`).join('')}<th>${t('total')}</th></tr></thead><tbody>`;
+    for(const r of L.rows){lv.forEach(l=>tot[l]+=r.c[l]||0);all+=r.n;
+      h+=`<tr class="r"><td>${esc(r.t[S.base])}</td>${lv.map(l=>`<td>${r.c[l]||0}</td>`).join('')}<td><b>${r.n}</b></td></tr>`}
+    h+=`<tr class="tot"><td>${t('total')}</td>${lv.map(l=>`<td>${tot[l]}</td>`).join('')}<td>${all}</td></tr>`;
+    h+=`<tr class="gr"><td>${t('gramSec')}</td>${lv.map(l=>`<td>${L.gram[l]||0}</td>`).join('')}<td>${lv.reduce((a,l)=>a+(L.gram[l]||0),0)}</td></tr>`;
+    h+=`</tbody></table></div></section>`;
+  }
+  $('#main').innerHTML=h+'</div>';
+}
+function render(){
+  renderHeader();
+  if(VIEW==='stats'){renderStats();return}
+  const d=DATA[S.lang];if(!d)return;
+  const s=cur();S.sheet=s.id;
+  let h=`<h1 class="sheet">${esc(s.t[S.base])}</h1>`;
+  if(s.kind==='guide')h=renderGuide(s);
+  else if(s.kind==='grammar')h+=renderGrammar(s);
+  else if(s.kind==='table')h+=renderAlpha(s);
+  else h+=renderVocab(s);
+  $('#main').innerHTML=h;
+  if(s.kind==='vocab')more();
+  const tab=$('#tab-'+s.id);if(tab)tab.scrollIntoView({block:'nearest',inline:'nearest'});
+}
+function setHash(){const h=VIEW==='stats'?'#stats':'#'+S.lang+'-'+S.sheet;if(location.hash!==h)history.replaceState(null,'',h)}
+async function go(lang,sheet){
+  VIEW='lang';S.lang=lang;if(sheet)S.sheet=sheet;q='';sec='';
+  await loadLang(lang);
+  if(!DATA[lang].sheets.some(s=>s.id===S.sheet))S.sheet='guide';
+  savePrefs();setHash();render();window.scrollTo(0,0);
+}
+
+/* ---------- esdeveniments ---------- */
+document.addEventListener('click',e=>{
+  const SB=e.target.closest('#statsBtn');if(SB){VIEW='stats';setHash();render();window.scrollTo(0,0);return}
+  const OP=e.target.closest('.stats .open');if(OP){go(OP.dataset.l,'guide');return}
+  const L=e.target.closest('.lang');if(L&&!L.disabled){go(L.dataset.l);return}
+  const V=e.target.closest('#lvls button');if(V){const l=V.dataset.lv;S.lv=S.lv.includes(l)?S.lv.filter(x=>x!==l):[...S.lv,l].sort();savePrefs();render();return}
+  const B=e.target.closest('#base button');if(B){S.base=B.dataset.v;savePrefs();render();return}
+  const T=e.target.closest('#tabs button');if(T){S.sheet=T.dataset.s;q='';sec='';savePrefs();setHash();render();window.scrollTo(0,0);return}
+  const H=e.target.closest('td.hid');if(H){H.classList.remove('hid');return}
+});
+document.addEventListener('change',e=>{
+  const el=e.target;
+  if(el.id==='ipa'){S.ipa=el.checked;savePrefs();render();return}
+  if(el.id==='hl'){S.hideLearned=el.checked;savePrefs();render();return}
+  if(el.id==='qz'){S.quiz=el.checked;savePrefs();render();return}
+  if(el.id==='sec'){sec=el.value;render();return}
+  if(el.closest('td.chk')){
+    const tr=el.closest('tr');const k=docId(S.lang,VS.id);const set=PROG[k]||(PROG[k]=new Set());
+    el.checked?set.add(tr.dataset.k):set.delete(tr.dataset.k);
+    tr.classList.toggle('done',el.checked);
+    if(el.checked)tr.querySelectorAll('td.hid').forEach(x=>x.classList.remove('hid'));
+    markDirty(k);
+    const inLv=VS.rows.filter(r=>r.c&&lvOn(r.lv));const total=inLv.length,done=inLv.filter(r=>set.has(r.k)).length;
+    $('#pc').textContent=`${done} ${t('of')} ${total} ${t('learned')}`;$('.prog b').style.width=Math.round(done*100/total)+'%';
+  }
+});
+let qt;document.addEventListener('input',e=>{if(e.target.id==='q'){clearTimeout(qt);qt=setTimeout(()=>{q=e.target.value;const pos=e.target.selectionStart;render();const n=$('#q');n.focus();try{n.setSelectionRange(pos,pos)}catch(_){}} ,220)}});
+window.addEventListener('hashchange',()=>{if(location.hash==='#stats'){if(VIEW!=='stats'){VIEW='stats';render()}return}const m=location.hash.match(/^#([a-z]{2})-([a-z]+)$/);if(m&&(m[1]!==S.lang||m[2]!==S.sheet))go(m[1],m[2])});
+
+(async()=>{
+  const wantStats=location.hash==='#stats';
+  const m=location.hash.match(/^#([a-z]{2})-([a-z]+)$/);
+  if(m&&LANGS.some(L=>L.id===m[1]&&L.on)){S.lang=m[1];S.sheet=m[2]}
+  if(!LANGS.some(L=>L.id===S.lang&&L.on))S.lang='ja';
+  renderHeader();
+  await go(S.lang,S.sheet);
+  if(wantStats){VIEW='stats';setHash();render()}
+  initCloud();
+})();
+</script>
+
+</html>
